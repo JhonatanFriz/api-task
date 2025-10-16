@@ -1,0 +1,46 @@
+API REST TAREAS
+
+Se desarrolla en node.js + TypeScript, utilizando Express y Prisma para persistencia en PostgreSql.
+
+Permite: crear, listar y actualizar tareas, incluye validación con Zod. Las pruebas automáticas se realizan con Vitest
+
+Para instalacion y configuración local:
+Clonar repositorio:
+
+  git clone 
+Instalar dependencias:
+  En carpeta raíz ejecutar
+  npm ci
+
+Config variables de entorno:
+    (En este caso se utiliza NeonDB, se debe reemplzar con la conexión de la base de datos)
+    DATABASE_URL="postgresql://usuario:contraseña@ep-xxxx.neon.tech/nombre_db?sslmode=require"
+    PORT=3000
+
+Generar el cliente prisma y migrar la DB:
+
+    npx prisma generate
+    npm run prisma:migrate
+
+Iniciar servidor de desarrollo:
+
+    npm run dev
+
+API disponible en "http://localhost:3000"
+
+Endpoints disponibles
+
+GET /health
+    Verifica el estado del servicio
+
+GET /tasks
+    Obtiene lista de tareas
+
+POST /tasks
+    Crea una tarea nueva
+
+PATCH /tasks/:id
+    Actualiza el estado de una tarea
+
+Ejecución de pruebas automáticas:
+    npm test
