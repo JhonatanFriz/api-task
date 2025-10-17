@@ -11,7 +11,7 @@ const createTaskDto = z.object({
     completed: z.boolean().optional().default(false),
 });
 
-tasksRouter.get('/', async (req, res, next) => {
+tasksRouter.get('/', async (_req, res, next) => {
     try {
         const tasks = await prisma.task.findMany({ orderBy : { id: 'asc' } });
         res.json(tasks);
@@ -22,7 +22,15 @@ tasksRouter.get('/', async (req, res, next) => {
 
 tasksRouter.post('/', async (req, res, next) => {
     try {
-        const data = createTaskDto.parse(req.body);
+        const parsed = createTaskDto.parse(req.body);
+        // Prisma TaskCreateInput expects `description: string` (no undefined),
+        // así que aseguramos que sea string ('' por defecto) antes de crear.
+        const data = {
+            title: parsed.title,
+            description: parsed.description ?? '',
+            completed: parsed.completed ?? false,
+        };
+
         const task = await prisma.task.create({ data });
         res.status(201).json(task);
     } catch (error) {
