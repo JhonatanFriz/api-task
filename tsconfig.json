@@ -39,6 +39,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "api/app.ts"],
+  "include": ["src/**/*", "src/app.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

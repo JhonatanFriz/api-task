@@ -1,18 +1,27 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import request from 'supertest';
-import app from '../api/app.js';
+import app from '../src/app.js';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 beforeAll(async () => {
+    // Se comprueba que estamos en entorno de test para evitar borrar la BD real
+    if (process.env.NODE_ENV !== 'test') {
+        throw new Error('Abortando tests: NODE_ENV no es `test`. Evitando borrar la base de datos real.');
+    }
     // Limpiar la base de datos antes de los tests
     await prisma.task.deleteMany();
 });
 
 afterAll(async () => {
     // Limpiar y desconectar después de los tests
-    await prisma.task.deleteMany();
+    if (process.env.NODE_ENV === 'test') {
+        await prisma.task.deleteMany();
+    } else {
+        console.warn('afterAll: NODE_ENV no es test, no se eliminaron datos.');
+    }
+
     await prisma.$disconnect();
 });
 
