@@ -8,6 +8,7 @@
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "test": "vitest run",
+  "test:ci": "cross-env NODE_ENV=test DATABASE_URL=file:./test.db npx prisma db push --schema=prisma/schema.test.prisma --accept-data-loss && vitest run",
     "test:watch": "vitest",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/node": "^24.7.2",
+    "cross-env": "^10.1.0",
     "prisma": "^6.17.1",
     "supertest": "^7.1.4",
     "tsx": "^4.20.6",
